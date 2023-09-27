@@ -10,5 +10,6 @@ class User(db.Model):
     email = db.Column(db.String(100), unique=True, nullable=False)
     hashed_password = db.Column(db.String(100), nullable=False)
     bio = db.Column(db.Text)
-    
+    profile_image = db.Column(db.String(200))
+
 
