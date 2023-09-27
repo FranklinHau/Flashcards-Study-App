@@ -12,4 +12,9 @@ class User(db.Model):
     bio = db.Column(db.Text)
     profile_image = db.Column(db.String(200))
 
+    # Hash the password 
+    def set_password(self, password):
+        self.hashed_password = generate_password_hash(password)
+        
+
 
