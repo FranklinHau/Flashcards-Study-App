@@ -9,4 +9,6 @@ class User(db.Model):
     username = db.Column(db.String(50), unique=True, nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
     hashed_password = db.Column(db.String(100), nullable=False)
+    bio = db.Column(db.Text)
+    
 
