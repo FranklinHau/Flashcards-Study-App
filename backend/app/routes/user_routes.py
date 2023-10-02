@@ -40,6 +40,15 @@ def update_user(id):
         return jsonify({'message': 'User update'}), 200
     return jsonify({'message': 'User not found'}), 404
 
+#Delete operation 
+@user_routes.route('/users/<int:id>', methods=['DELETE'])
+def delete_user(id): 
+    user = User.query.get(id)
+    if user: 
+        db.session.delete(user)
+        db.session.commit()
+        return jsonify({'message': 'User deleted'}), 200
+    return jsonify({'message': 'User not found'}), 404
 
     
     
