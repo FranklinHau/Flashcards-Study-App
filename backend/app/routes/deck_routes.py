@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request 
 from config import db 
-from models import Deck 
+from app.models.deck import Deck 
 
 deck_routes = Blueprint('deck_routes', __name__)
 
@@ -15,11 +15,10 @@ def create_deck():
 
 # get all decks
 @deck_routes.route('/api/decks/<int:id>', methods=['GET'])
-def get_deck(id):
-    deck = Deck.query.get(id)
-    if deck: 
-        return jsonify(deck.serialize()), 200
-    return jsonify({'message': 'Deck not found'}), 404
+def get_decks():
+    decks = Deck.query.all()
+    return jsonify([deck.serialize() for deck in decks]), 200
+    
 
 # get a single deck by id
 @deck_routes.route('/api/decks/<int:id>', methods=['GET'])

@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request 
 from config import db 
-from models import Card 
+from app.models.card import Card 
 
 card_routes = Blueprint('card_routes', __name__)
 

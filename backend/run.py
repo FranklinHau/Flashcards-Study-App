@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
 from config import app
-from app.routes import deck_routes
-from app.routes import user_routes 
-from app.routes import card_routes 
+from app.routes.deck_routes import deck_routes
+from app.routes.user_routes import user_routes 
+from app.routes.card_routes import card_routes 
     
 app.register_blueprint(deck_routes)
 app.register_blueprint(user_routes)
