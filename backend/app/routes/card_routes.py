@@ -18,3 +18,13 @@ def create_card():
 
     return jsonify({'message': 'New card created'}), 201
 
+# get a card
+@card_routes.route('/api/cards/<int:id>', methods=['GET'])
+def get_card(id):
+    card = Card.query.get(id)
+    if card: 
+        return jsonify(card.serialize()), 200
+    return jsonify({'message': 'Card not found'}), 404
+
+    
+
