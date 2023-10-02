@@ -24,7 +24,7 @@ def create_user():
 def get_user(id):
     user = User.query.get(id)
     if user: 
-        return jsonify(user.serialize()), 200
+        return jsonify(user.to_dict()), 200
     return jsonify({'message': 'User not found'}), 404
 
 # Update user

@@ -10,7 +10,8 @@ def create_card():
     data = request.get_json()
     new_card = Card(
         deck_id=data['deck_id'],
-        question=data['answer'], 
+        question=data['question'], 
+        answer=data['answer']
         hint=data.get('hint') #hint is optional 
     )
     db.session.add(new_card)
@@ -41,9 +42,9 @@ def update_card(id):
     return jsonify({'message': 'Card not found'}), 404
 
 # delete card 
-@card_routes.route('/api/cards/<int:id>', methods=['DELETE]'])
+@card_routes.route('/api/cards/<int:id>', methods=['DELETE'])
 def delete_card(id):
-    card = Card.query.getk(id)
+    card = Card.query.get(id)
     if card: 
         db.session.delete(card)
         db.session.commit()
