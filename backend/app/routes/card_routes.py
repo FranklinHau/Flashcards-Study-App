@@ -26,5 +26,20 @@ def get_card(id):
         return jsonify(card.serialize()), 200
     return jsonify({'message': 'Card not found'}), 404
 
+# update card 
+@card_routes.route('/api/cards/<int:id>', methods=['PUT'])
+def update_card(id): 
+    card = Card.query.get(id)
+    if card: 
+        data = request.get.json()
+        card.question = data.get('question', card.question)
+        card.answer = data.get('answer', card.answer)
+        card.hint = data.get('hint', card.hint)
+
+        db.session.commit()
+        return jsonify({'message': 'Card updated'}), 200
+    return jsonify({'message': 'Card not found'}), 404
+
+
     
 
