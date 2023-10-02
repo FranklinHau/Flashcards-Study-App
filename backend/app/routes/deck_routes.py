@@ -1,6 +1,8 @@
-from flask import jsonify, request 
-from app import app, db 
-from app.models import Deck 
+from flask import Blueprint, jsonify, request 
+from app import db 
+from models import Deck 
+
+deck_routes = Blueprint('deck_routes', __name__)
 
 @app.route('/api/decks', methods=['POST'])
 def create_deck():
