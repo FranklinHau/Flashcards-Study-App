@@ -7,7 +7,7 @@ from random import randint, choice as rc
 from faker import Faker
 
 # Local imports
-from backend.ll import app
+from backend.run import app
 from backend.models.user import db, User
 
 if __name__ == '__main__':

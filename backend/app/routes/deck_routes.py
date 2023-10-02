@@ -1,10 +1,10 @@
 from flask import Blueprint, jsonify, request 
-from app import db 
+from config import db 
 from models import Deck 
 
 deck_routes = Blueprint('deck_routes', __name__)
 
-@app.route('/api/decks', methods=['POST'])
+@deck_routes.route('/api/decks', methods=['POST'])
 def create_deck():
     data = request.get_json()
     new_deck = Deck(title=data['title'], description=data['description'], user_id=data['user_id'])
