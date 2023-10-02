@@ -9,7 +9,10 @@ from flask_restful import Resource
 # Local imports
 from config import app, db, api
 # model imports
-
+from models.card import Card 
+from models.deck import Deck 
+from models.review import Review
+from models.user import User
 
 # Views go here!
 
