@@ -27,6 +27,19 @@ def get_user(id):
         return jsonify(user.serialize()), 200
     return jsonify({'message': 'User not found'}), 404
 
+# Update operation
+@user_routes.route('/users/<int:id>', methods=['PUT'])
+def update_user(id): 
+    user = User.query.get(id)
+    if user: 
+        data = request.get_json()
+        user.username = data.get('username', user.username)
+        user.email = data.get('email', user.email)
+
+        db.session.commit()
+        return jsonify({'message': 'User update'}), 200
+    return jsonify({'message': 'User not found'}), 404
+
 
     
     
