@@ -1,8 +1,20 @@
-from flask import jsonify, request 
-from app import app, db 
-from app.models import Card 
+from flask import Blueprint, jsonify, request 
+from config import db 
+from models import Card 
 
-@app.route('/api/cards', methods=['POST'])
+card_routes = Blueprint('card_routes', __name__)
+
+# create a card 
+@card_routes.route('/api/cards', methods=['POST'])
 def create_card():
     data = request.get_json()
-    new_card = Card(title=data['title'], description=data['descriptiom'], user_id=data['user_id'])
+    new_card = Card(
+        deck_id=data['deck_id'],
+        question=data['answer'], 
+        hint=data.get('hint') #hint is optional 
+    )
+    db.session.add(new_card)
+    db.session.commit()
+
+    return jsonify({'message': 'New card created'}), 201
+
