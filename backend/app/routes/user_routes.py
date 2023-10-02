@@ -5,7 +5,7 @@ from app.models import User
 # Creating a Blueprint for the user routes 
 user_routes = Blueprint('user_routes', __name__)
 
-# Create operation 
+# Create user
 @user_routes.route('/users', methods=['POST'])
 def create_user():
     data = request.get_json()
@@ -19,7 +19,7 @@ def create_user():
     db.session.commit()
     return jsonify({'message': 'New user created'}), 201
 
-# Read operation
+# get user 
 @user_routes.route('/users/<int:id>', methods=['GET'])
 def get_user(id):
     user = User.query.get(id)
@@ -27,7 +27,7 @@ def get_user(id):
         return jsonify(user.serialize()), 200
     return jsonify({'message': 'User not found'}), 404
 
-# Update operation
+# Update user
 @user_routes.route('/users/<int:id>', methods=['PUT'])
 def update_user(id): 
     user = User.query.get(id)
@@ -40,7 +40,7 @@ def update_user(id):
         return jsonify({'message': 'User update'}), 200
     return jsonify({'message': 'User not found'}), 404
 
-#Delete operation 
+#Delete user 
 @user_routes.route('/users/<int:id>', methods=['DELETE'])
 def delete_user(id): 
     user = User.query.get(id)

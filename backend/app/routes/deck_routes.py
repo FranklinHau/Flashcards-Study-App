@@ -4,7 +4,7 @@ from models import Deck
 
 deck_routes = Blueprint('deck_routes', __name__)
 
-# create operation
+# create deck
 @deck_routes.route('/api/decks', methods=['POST'])
 def create_deck():
     data = request.get_json()
@@ -29,7 +29,7 @@ def get_deck(id):
         return jsonify(deck.serialize()), 200
     return jsonify({'message': 'Deck not found'}), 404
 
-# update operation
+# update deck
 @deck_routes.route('/api/decks/<int:id>', methods=['PUT'])
 def update_deck(id):
     deck = Deck.query.get(id)
@@ -42,7 +42,7 @@ def update_deck(id):
         return jsonify({'message': 'Deck updated'}), 200
     return jsonify({'message': 'Deck not found'}), 404 
 
-# delete operation
+# delete deck
 @deck_routes.route('/api/decks/<int:id>', methods=['DELETE'])
 def delete_deck(id):
     deck = Deck.query.get(id)
