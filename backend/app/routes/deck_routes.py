@@ -14,7 +14,7 @@ def create_deck():
     return jsonify({'message': 'New deck created'}), 201
 
 # get all decks
-@deck_routes.route('/api/decks/<int:id>', methods=['GET'])
+@deck_routes.route('/api/decks', methods=['GET'])
 def get_decks():
     decks = Deck.query.all()
     return jsonify([deck.serialize() for deck in decks]), 200

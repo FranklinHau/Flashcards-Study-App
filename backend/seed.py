@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-
+import sys
+sys.path.append("..")
 # Standard library imports
 from random import randint, choice as rc
 
@@ -7,8 +8,8 @@ from random import randint, choice as rc
 from faker import Faker
 
 # Local imports
-from backend.run import app
-from backend.models.user import db, User
+from run import app
+from app.models.user import db, User
 
 if __name__ == '__main__':
     fake = Faker()
@@ -33,6 +34,10 @@ if __name__ == '__main__':
             # Create new User instance
             # Using the fake username and email 
             new_user = User(username=username, email=email)
+
+            # generate a fake password and set the hashed password for the user
+            fake_password = fake.password()
+            new_user.set_password(fake_password)
 
             # Add the new user to the database session
             # This prepares them to be committed to the database 
