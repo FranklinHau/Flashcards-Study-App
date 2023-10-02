@@ -5,3 +5,4 @@ class Card(db.Model):
     deck_id = db.Column(db.Integer, db.ForeignKey('deck.id'), nullable=False)
     question = db.Column(db.String(200), nullable=False)
     answer = db.Column(db.string(200), nullable=False)
+    hint = db.Column(db.String(200))
