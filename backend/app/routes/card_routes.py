@@ -40,6 +40,16 @@ def update_card(id):
         return jsonify({'message': 'Card updated'}), 200
     return jsonify({'message': 'Card not found'}), 404
 
+# delete card 
+@card_routes.route('/api/cards/<int:id>', methods=['DELETE]'])
+def delete_card(id):
+    card = Card.query.getk(id)
+    if card: 
+        db.session.delete(card)
+        db.session.commit()
+        return jsonify({'message': 'Card deleted'}), 200
+    return jsonify({'message': 'Card not found'}), 404
+
 
     
 
