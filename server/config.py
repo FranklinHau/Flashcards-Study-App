@@ -12,8 +12,12 @@ from sqlalchemy import MetaData
 
 # Instantiate app, set attributes
 app = Flask(__name__)
+# Get database URI from environment variables 
+# fetched from an environment variable 'DATABASE_URI', falling back to 'sqlite://app/db'
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URI', 'sqlite:///app.db')
+# Disable tracking of modifications 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# Don't compact the JSON output
 app.json.compact = False
 
 # Define metadata, instantiate db
