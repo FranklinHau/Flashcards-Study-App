@@ -20,9 +20,6 @@ from models.user import User
 def index():
     return '<h1>Project Server</h1>'
 
-@app.route('/api/decks', methods=['POST'])
-def create_deck(): 
-    data = request.get_json()
     
 
 
