@@ -13,10 +13,19 @@ def create_deck():
     db.session.commit()
     return jsonify({'message': 'New deck created'}), 201
 
-# read operations (get all decks)
+# get all decks
 @deck_routes.route('/api/decks/<int:id>', methods=['GET'])
 def get_deck(id):
     deck = Deck.query.get(id)
     if deck: 
         return jsonify(deck.serialize()), 200
     return jsonify({'message': 'Deck not found'}), 404
+
+# get a single deck by id
+@deck_routes.route('/api/decks/<int:id>', methods=['GET'])
+def get_deck(id):
+    deck = Deck.query.get(id)
+    if deck: 
+        return jsonify(deck.serialize()), 200
+    return jsonify({'message': 'Deck not found'}), 404
+
