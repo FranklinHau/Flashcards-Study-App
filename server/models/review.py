@@ -1,5 +1,6 @@
 from app import db 
 
 class Review(db.Model): 
-    id = db.column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
+    deck_id = db.Column(db.Integer, db.ForeignKey('deck.id'), nullable=False)
     
