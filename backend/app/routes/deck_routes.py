@@ -42,3 +42,13 @@ def update_deck(id):
         return jsonify({'message': 'Deck updated'}), 200
     return jsonify({'message': 'Deck not found'}), 404 
 
+# delete operation
+@deck_routes.route('/api/decks/<int:id>', methods=['DELETE'])
+def delete_deck(id):
+    deck = Deck.query.get(id)
+    if deck: 
+        db.session.delete(deck)
+        db.session.commit()
+        return jsonify({'message': 'Deck deleted'}), 200
+    return jsonify({'message': 'Deck not found'}), 404
+    
