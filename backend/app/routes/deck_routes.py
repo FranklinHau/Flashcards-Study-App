@@ -29,3 +29,16 @@ def get_deck(id):
         return jsonify(deck.serialize()), 200
     return jsonify({'message': 'Deck not found'}), 404
 
+# update operation
+@deck_routes.route('/api/decks/<int:id>', methods=['PUT'])
+def update_deck(id):
+    deck = Deck.query.get(id)
+    if deck: 
+        data = request.get_json()
+        deck.title = data.get('title', deck.title)
+        deck.description = data.get('description', deck.description)
+
+        db.session.commit()
+        return jsonify({'message': 'Deck updated'}), 200
+    return jsonify({'message': 'Deck not found'}), 404 
+
