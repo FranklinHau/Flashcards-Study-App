@@ -6,6 +6,7 @@ class Deck(db.Model):
     title = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text)
     subject = db.Column(db.String(50))
+    public = db.Column(db.Boolean, default=True)
 
 
     
