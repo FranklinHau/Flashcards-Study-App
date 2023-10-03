@@ -1,5 +1,6 @@
 import React from 'react';
 import UserComponent from './UserComponent';
+import config from './config';
 
 function App() {
   return (
@@ -9,5 +10,5 @@ function App() {
     </div>
   )
 }
-
+axios.get(`${config.apiBaseURL}/users`)
 export default App;
