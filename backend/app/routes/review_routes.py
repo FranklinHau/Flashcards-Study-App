@@ -40,4 +40,13 @@ def update_review(id):
         return jsonify({'rating', 'Review updated'}), 200
     return jsonify({'message': 'Review not found'}), 404
 
+# Delete a review by its ID
+@review_routes.route('/api/reviews/<int:id>', methods=['DELETE'])
+def delete_review(id): 
+    review = Review.query.get(id): 
+    if review: 
+        db.session.delete(review)
+        db.session.commit()
+        return jsonify({'message': 'Review deleted'}), 200
+    return jsonify({'message': 'Review not found'}), 404
 
