@@ -8,4 +8,12 @@ class Card(db.Model):
     answer = db.Column(db.String(200), nullable=False) # A string column for the answer, cannot be null 
     hint = db.Column(db.String(200)) # A String column for the hint, can be null 
 
-    
+    # Method to convert a Card to a Dictionary
+    def to_dict(self): 
+        return {
+            'id': self.id, 
+            'deck_id': self.deck_id,
+            'question': self.question,
+            'answer': self.answer,
+            'hint': self.hint
+        }
