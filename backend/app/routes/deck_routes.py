@@ -17,7 +17,7 @@ def create_deck():
 @deck_routes.route('/api/decks', methods=['GET'])
 def get_decks():
     decks = Deck.query.all()
-    return jsonify([deck.serialize() for deck in decks]), 200
+    return jsonify([deck.to_dict() for deck in decks]), 200 
     
 
 # get a single deck by id
@@ -25,10 +25,10 @@ def get_decks():
 def get_deck(id):
     deck = Deck.query.get(id)
     if deck: 
-        return jsonify(deck.serialize()), 200
+        return jsonify(deck.to_dict()), 200
     return jsonify({'message': 'Deck not found'}), 404
 
-# update deck
+# update deck by id
 @deck_routes.route('/api/decks/<int:id>', methods=['PUT'])
 def update_deck(id):
     deck = Deck.query.get(id)

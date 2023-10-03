@@ -11,7 +11,7 @@ def create_card():
     new_card = Card(
         deck_id=data['deck_id'],
         question=data['question'], 
-        answer=data['answer']
+        answer=data['answer'],
         hint=data.get('hint') #hint is optional 
     )
     db.session.add(new_card)

@@ -37,13 +37,13 @@ def update_review(id):
         review.comment = data.get('comment', review.comment)
 
         db.session.commit()
-        return jsonify({'rating', 'Review updated'}), 200
+        return jsonify({'message': 'Review updated'}), 200
     return jsonify({'message': 'Review not found'}), 404
 
 # Delete a review by its ID
 @review_routes.route('/api/reviews/<int:id>', methods=['DELETE'])
 def delete_review(id): 
-    review = Review.query.get(id): 
+    review = Review.query.get(id)
     if review: 
         db.session.delete(review)
         db.session.commit()
