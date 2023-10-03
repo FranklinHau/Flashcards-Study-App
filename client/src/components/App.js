@@ -26,13 +26,41 @@ const UserComponent = () => {
   // function to delete a user 
   const deleteUser = (id) => {
     axios.delete(`/users/${id}`)
-    .then(response => 
-      // remove deleted user from state)
-      setUsers(users.filter(user => user.id !== id));
+      .then(response => {
+        // remove deleted user from state)
+        setUsers(users.filter(user => user.id !== id));
   })
     .catch(error => console.log(error));
-};
+  };
 
+  // function to update a user 
+  const updateUser = (id, updateUser) => {
+    axios.put(`/users/${id}`, updateUser)
+      .then(response => {
+        // update state with updated user 
+        setUsers(user.map(user => (user.id == id ? updateUser : user)));
+      })
+      .catch(error => console.log(error));
+  };
 
+  return (
+    <div>
+      {/* Display existing users */}
+      <ul>
+        {users.map(user => (
+          <li key={user.id}> 
+            {user.username} - {user.email}
+            <button onClick={() => deleteUser(user.id)}>Delete</button>
+            </li>
+        ))}
+      </ul>
+
+      {/* Form to create a new user */}
+      <input
+        type='text'
+        placeholder='Username'
+        value={newUser.username}
+    </div>
+  )
 }
 
