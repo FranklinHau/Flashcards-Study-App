@@ -9,7 +9,7 @@ const UserComponent = () => {
   // Load existing users when components mounts 
   useEffect(() => {
     axios.get('/users')
-      .then(responde => {
+      .then(response => {
         setUsers(response.data);
       })
       .catch(error => console.log(error));
@@ -38,7 +38,7 @@ const UserComponent = () => {
     axios.put(`/users/${id}`, updateUser)
       .then(response => {
         // update state with updated user 
-        setUsers(user.map(user => (user.id == id ? updateUser : user)));
+        setUsers(users.map(user => (user.id == id ? updateUser : user)));
       })
       .catch(error => console.log(error));
   };
@@ -66,7 +66,7 @@ const UserComponent = () => {
         type='email'
         placeholder='Email'
         value={newUser.email}
-        OnChange={e => setNewUser({ ...newUser, email: e.target.value })}
+        onChange={e => setNewUser({ ...newUser, email: e.target.value })}
       />
       <input
         type='password'
