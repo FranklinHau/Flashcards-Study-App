@@ -23,6 +23,16 @@ const UserComponent = () => {
     })
     .catch(error => console.log(error));
   };
-  
+  // function to delete a user 
+  const deleteUser = (id) => {
+    axios.delete(`/users/${id}`)
+    .then(response => 
+      // remove deleted user from state)
+      setUsers(users.filter(user => user.id !== id));
+  })
+    .catch(error => console.log(error));
+};
+
+
 }
 
