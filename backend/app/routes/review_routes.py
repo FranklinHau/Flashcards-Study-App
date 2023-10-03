@@ -27,4 +27,17 @@ def get_review(id):
         return jsonify(review.to_dict()), 200
     return jsonify({'message': 'Review not found'}), 404
 
- 
+ # Update a review by its ID
+@review_routes.route('/api/reviews/<int:id>', methods=['PUT'])
+def update_review(id): 
+    review = Review.query.get(id)
+    if review: 
+        data = request.get_json()
+        review.rating = data.get('rating', review.rating)
+        review.comment = data.get('comment', review.comment)
+
+        db.session.commit()
+        return jsonify({'rating', 'Review updated'}), 200
+    return jsonify({'message': 'Review not found'}), 404
+
+
