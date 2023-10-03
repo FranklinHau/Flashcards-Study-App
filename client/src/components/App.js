@@ -14,4 +14,15 @@ const UserComponent = () => {
       })
       .catch(error => console.log(error));
   }, []);
+  // Function to create a new user 
+  const createUser = () => {
+    axios.post('/users', newUser)
+    .then(response => {
+      // update user state with new user
+      setUsers([...users, response.data]);
+    })
+    .catch(error => console.log(error));
+  };
+  
 }
+
