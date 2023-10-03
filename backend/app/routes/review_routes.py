@@ -19,3 +19,12 @@ def create_review():
     db.session.commit()
     return jsonify({'message': 'New review created'}), 201
 
+# Get a specific review by its ID
+@review_routes.route('/api/reviews/<int:id>', methods=['GET'])
+def get_review(id): 
+    review = Review.query.get(id)
+    if review:
+        return jsonify(review.to_dict()), 200
+    return jsonify({'message': 'Review not found'}), 404
+
+ 
