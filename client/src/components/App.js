@@ -60,7 +60,24 @@ const UserComponent = () => {
         type='text'
         placeholder='Username'
         value={newUser.username}
+        onChange={e => setNewUser({ ...newUser, username: e.target.value})}
+      />
+      <input
+        type='email'
+        placeholder='Email'
+        value={newUser.email}
+        OnChange={e => setNewUser({ ...newUser, email: e.target.value })}
+      />
+      <input
+        type='password'
+        placeholder='Password'
+        value={newUser.password}
+        onChange={e => setNewUser({ ...newUser, password: e.target.value })}
+      />
+      <button onClick={createUser}>Create User</button>
     </div>
-  )
-}
+  );
+};
+
+export default UserComponent; 
 
