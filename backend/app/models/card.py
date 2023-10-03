@@ -7,3 +7,5 @@ class Card(db.Model):
     question = db.Column(db.String(200), nullable=False) # A string column for the question, cannot be null 
     answer = db.Column(db.String(200), nullable=False) # A string column for the answer, cannot be null 
     hint = db.Column(db.String(200)) # A String column for the hint, can be null 
+
+    
