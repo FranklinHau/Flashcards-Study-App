@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useState} from 'react';
+import { useHistory } from 'react-router-dom';
 
 // sample data representing public decks 
 const sampleDecks = [
@@ -7,6 +8,9 @@ const sampleDecks = [
 ];
 
 function Home() {
+    // defining history for navigation
+    const history = useHistory();
+
     // State to hold login form data
     const [loginData, setLoginData] = useState({ email: '', password: ''});
 
@@ -15,7 +19,13 @@ function Home() {
         e.preventDefault();
         // call the login API with loginData
         alert(`Logging in with email: ${loginData.email}`);
-    };
+
+    // function to navigate to registration page 
+    const navigateToRegister = () => {
+        history.push('/register');
+    }}; 
+
+
 
     return (
         <div className='home-container'>
@@ -28,7 +38,7 @@ function Home() {
                         type='email'
                         placeholder='Email'
                         value={loginData.email}
-                        onChange={(e) = setLoginData({...loginData, email: e.target.value})} />
+                        onChange={(e) => setLoginData({...loginData, email: e.target.value})} />
                 
                     <input 
                         type='password'
@@ -37,7 +47,7 @@ function Home() {
                         onChange={(e) => setLoginData({...loginData, password: e.target.value})} />
                     <button type='submit'>Login</button>
                 </form>
-                <button onClick={() => alert('Register functionality here')}>Register</button>
+                <button onClick={navigateToRegister}>Register</button>
             </div>
 
             {/* Section for displaying example study decks */}

@@ -1,14 +1,20 @@
 //serves as the entry point for my application's frontend
-import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Home from './Home'
+import UserComponent from './UserComponent';
 
 
 function App() {
   return (
-    <div className='App'>
-      <Home/>
-    </div>
-  )
+    <Router>
+      <div className='App'>
+        <Switch> 
+          <Route path='/' exact component={HOME} />
+          <Route path='/register' component={UserComponent} />
+        </Switch>
+      </div>
+    </Router>
+  );
 }
 
 export default App;
