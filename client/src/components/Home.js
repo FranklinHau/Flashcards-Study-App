@@ -2,8 +2,8 @@ import React from 'react';
 
 // sample data representing public decks 
 const sampleDecks = [
-    {id: 1, title: 'Science Deck', description: 'Learn about basic science.'},
-    {id: 2, title: 'History Deck', description: 'Learn about world history.'}
+    {id: 1, title: 'Science Deck', description: 'Your own notes.'},
+    {id: 2, title: 'History Deck', description: 'Your own memorizing cards.'}
 ];
 
 function Home() {
@@ -18,8 +18,8 @@ function Home() {
                 <button onClick={() => alert('Register functionality here')}>Register</button>
             </div>
 
-            {/* Section for displaying public decks */}
-            <h2>Public Decks</h2>
+            {/* Section for displaying example study decks */}
+            <h2>Create your own Decks of study Cards</h2>
             <ul>
                 {sampleDecks.map((deck) => (
                     <li key={deck.id}>
