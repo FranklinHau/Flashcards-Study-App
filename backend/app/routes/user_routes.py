@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from config import db 
 from app.models.user import User 
+from werkzeug.security import check_password_hash
 
 # Creating a Blueprint for the user routes 
 user_routes = Blueprint('user_routes', __name__)
@@ -59,7 +60,7 @@ def login_user():
 
     user = User.query.filter_by(email=email).first()
 
-    if user and check_password_hash(user.password, password):
+    if user and check_password_hash(password):
         return jsonify({'message': 'Login successful', 'user': user.to_dict()}), 200
     else: 
         return jsonify({'message': 'Invalid email or password'}), 401

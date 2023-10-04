@@ -18,7 +18,8 @@ class User(db.Model, SerializerMixin):
 
     # Hash the password 
     def set_password(self, password):
-        self.hashed_password = generate_password_hash(password)
+        return check_password_hash(self.hashed_password, password)
+    
 
 
 

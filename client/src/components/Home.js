@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, {useState} from 'react';
 import { useHistory } from 'react-router-dom';
 
@@ -15,13 +16,18 @@ function Home() {
     const [loginData, setLoginData] = useState({ email: '', password: ''});
 
     // Function to handle login form submission 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
-        // Verify login
-        if (loginData.email === 'email' && loginData.password === 'password') {
-            history.push('/profile'); // to redirect to UserProfile component 
-        } else {
-            alert('Invalid credentials');
+        try {
+            const response = await axios.post(`http://localhost:5555/login`, loginData);
+            if (response.status === 200) {
+                history.push('/profile'); // Navigate to UserProfile component 
+            } else {
+                alert('Invalid credentials');
+            }
+        } catch (error) {
+            alert('An error occurred during login');
+            console.error(error);
         }
 
     };
