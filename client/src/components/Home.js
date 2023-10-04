@@ -7,14 +7,36 @@ const sampleDecks = [
 ];
 
 function Home() {
+    // State to hold login form data
+    const [loginData, setLoginData] = useState({ email: '', password: ''});
+
+    // Function to handle login form submission 
+    const handleLogin = (e) => {
+        e.preventDefault();
+        // call the login API with loginData
+        alert(`Logging in with email: ${loginData.email}`);
+    };
+
     return (
         <div className='home-container'>
             <h1>Welcome to The Flashcard App!</h1>
 
             {/* section for login and reqistration */}
             <div className='auth-section'>
-                <button onClick={() => alert('Login functionality here')}>Login</button>
-
+                <form onSubmit={handleLogin}>
+                    <input
+                        type='email'
+                        placeholder='Email'
+                        value={loginData.email}
+                        onChange={(e) = setLoginData({...loginData, email: e.target.value})} />
+                
+                    <input 
+                        type='password'
+                        placeholder='Password'
+                        value={loginData.password}
+                        onChange={(e) => setLoginData({...loginData, password: e.target.value})} />
+                    <button type='submit'>Login</button>
+                </form>
                 <button onClick={() => alert('Register functionality here')}>Register</button>
             </div>
 
