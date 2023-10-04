@@ -17,8 +17,13 @@ function Home() {
     // Function to handle login form submission 
     const handleLogin = (e) => {
         e.preventDefault();
-        // call the login API with loginData
-        alert(`Logging in with email: ${loginData.email}`);
+        // Verify login
+        if (loginData.email === 'email' && loginData.password === 'password') {
+            history.push('/profile'); // to redirect to UserProfile component 
+        } else {
+            alert('Invalid credentials');
+        }
+
     };
     // function to navigate to registration page 
     const navigateToRegister = () => {
