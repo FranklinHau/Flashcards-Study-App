@@ -50,5 +50,18 @@ def delete_user(id):
         return jsonify({'message': 'User deleted'}), 200
     return jsonify({'message': 'User not found'}), 404
 
+# Login user
+@user_routes.route('/login', methods=['POST'])
+def login_user():
+    data = request.get_json()
+    email = data.get('email')
+    password = data.get('password')
+
+    user = User.query.filter_by(email=email).first()
+
+    if user and check_password_hash(user.password, password):
+        return jsonify({'message': 'Login successful', 'user': user.to_dict()}), 200
+    else: 
+        return jsonify({'message': 'Invalid email or password'}), 401
     
     
