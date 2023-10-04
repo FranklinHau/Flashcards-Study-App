@@ -19,11 +19,11 @@ function Home() {
         e.preventDefault();
         // call the login API with loginData
         alert(`Logging in with email: ${loginData.email}`);
-
+    };
     // function to navigate to registration page 
     const navigateToRegister = () => {
         history.push('/register');
-    }}; 
+    }; 
 
 
 

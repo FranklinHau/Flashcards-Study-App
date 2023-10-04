@@ -34,15 +34,6 @@ const UserComponent = () => {
     .catch(error => console.log(error));
   };
 
-  // function to update a user 
-  const updateUser = (id, updateUser) => {
-    axios.put(`${config.apiBaseURL}/users/${id}`, updateUser)
-      .then(response => {
-        // update state with updated user 
-        setUsers(users.map(user => (user.id === id ? updateUser : user)));
-      })
-      .catch(error => console.log(error));
-  };
 
   return (
     <div>
