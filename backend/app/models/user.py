@@ -20,6 +20,5 @@ class User(db.Model, SerializerMixin):
     def set_password(self, password):
         self.hashed_password = generate_password_hash(password)
 
-#
 
 
