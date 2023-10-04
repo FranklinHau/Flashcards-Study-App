@@ -2,6 +2,7 @@
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Home from './Home'
 import UserComponent from './UserComponent';
+import UserProfile from './UserProfile';
 
 
 function App() {
@@ -11,6 +12,7 @@ function App() {
         <Switch> 
           <Route path='/' exact component={Home} />
           <Route path='/register' component={UserComponent} />
+          <Route 
         </Switch>
       </div>
     </Router>
