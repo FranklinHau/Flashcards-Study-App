@@ -2,6 +2,7 @@ from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.associationproxy import association_proxy
 from werkzeug.security import generate_password_hash, check_password_hash 
 
+
 from config import db
 
 class User(db.Model, SerializerMixin): 
@@ -18,6 +19,7 @@ class User(db.Model, SerializerMixin):
     # Hash the password 
     def set_password(self, password):
         self.hashed_password = generate_password_hash(password)
-        
+
+#
 
 
