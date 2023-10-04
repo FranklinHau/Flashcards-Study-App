@@ -13,7 +13,7 @@ const UserComponent = () => {
       .then(response => {
         setUsers(response.data);
       })
-      .catch(error => console.log(error));
+      .catch(error => console.log('Error', error));
   }, []);
   // Function to create a new user 
   const createUser = () => {
@@ -22,7 +22,7 @@ const UserComponent = () => {
       // update user state with new user
       setUsers([...users, response.data]);
     })
-    .catch(error => console.log(error));
+    .catch(error => console.log('Error', error));
   };
   // function to delete a user 
   const deleteUser = (id) => {
@@ -31,7 +31,7 @@ const UserComponent = () => {
         // remove deleted user from state)
         setUsers(users.filter(user => user.id !== id));
   })
-    .catch(error => console.log(error));
+    .catch(error => console.log('Error', error));
   };
 
 
