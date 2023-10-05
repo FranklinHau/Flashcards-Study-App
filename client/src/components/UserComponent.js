@@ -8,6 +8,8 @@ const UserComponent = () => {
   // Initilize user state 
   const [users, setUsers] = useState([]);
   const [newUser, setNewUser] = useState({ username: '', email: '', password: ''});
+  const [message, setMessage] = useState(''); 
+  const [termsAccepted, setTermsAccepted] = useState(false); 
 
   // Load existing users when components mounts 
   // useEffect(() => {
