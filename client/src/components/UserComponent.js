@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import config from './config';
+
+
 
 const UserComponent = () => {
   // Initilize user state 
@@ -8,45 +10,37 @@ const UserComponent = () => {
   const [newUser, setNewUser] = useState({ username: '', email: '', password: ''});
 
   // Load existing users when components mounts 
-  useEffect(() => {
-    axios.get(`${config.apiBaseURL}/users`)
-      .then(response => {
-        setUsers(response.data);
-      })
-      .catch(error => console.log('Error', error));
-  }, []);
+  // useEffect(() => {
+  //   axios.get(`${config.apiBaseURL}/users`)
+  //     .then(response => {
+  //       setUsers(response.data);
+  //     })
+  //     .catch(error => console.log('Error', error));
+  // }, []);
   // Function to create a new user 
   const createUser = () => {
     axios.post(`${config.apiBaseURL}/users`, newUser)
     .then(response => {
       // update user state with new user
+      alert('User successfully registered');
       setUsers([...users, response.data]);
     })
     .catch(error => console.log('Error', error));
   };
   // function to delete a user 
-  const deleteUser = (id) => {
-    axios.delete(`${config.apiBaseURL}/users/${id}`)
-      .then(response => {
-        // remove deleted user from state)
-        setUsers(users.filter(user => user.id !== id));
-  })
-    .catch(error => console.log('Error', error));
-  };
+  // const deleteUser = (id) => {
+  //   axios.delete(`${config.apiBaseURL}/users/${id}`)
+  //     .then(response => {
+  //       // remove deleted user from state)
+  //       setUsers(users.filter(user => user.id !== id));
+  // })
+  //   .catch(error => console.log('Error', error));
+  // };
 
 
   return (
-    <div>
-      {/* Display existing users */}
-      <ul>
-        {users.map(user => (
-          <li key={user.id}> 
-            {user.username} - {user.email}
-            <button onClick={() => deleteUser(user.id)}>Delete</button>
-            </li>
-        ))}
-      </ul>
-
+    <div className='Registration-container'>
+      <h2>Register</h2>
       {/* Form to create a new user */}
       <input
         type='text'

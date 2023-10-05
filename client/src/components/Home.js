@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, {useState} from 'react';
 import { useHistory } from 'react-router-dom';
 
+
 // sample data representing public decks 
 const sampleDecks = [
     {id: 1, title: 'Science Deck', description: 'Your own notes.'},
@@ -20,7 +21,9 @@ function Home() {
         e.preventDefault();
         try {
             const response = await axios.post(`http://localhost:5555/login`, loginData);
+            console.log('Response:', response);
             if (response.status === 200) {
+                localStorage.setItem('access_token', response.data.access_token); // store JWT token 
                 history.push('/profile'); // Navigate to UserProfile component 
             } else {
                 alert('Invalid credentials');

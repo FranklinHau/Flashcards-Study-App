@@ -8,8 +8,10 @@ from flask_migrate import Migrate
 from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
+from dotenv import load_dotenv
 
-
+# environment variables
+load_dotenv()
 # Instantiate app, set attributes
 app = Flask(__name__)
 # Get database URI from environment variables 
@@ -17,6 +19,8 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URI', 'sqlite:///app.db')
 # Disable tracking of modifications 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+#authentication JWT (JSON Web Tokens)
+app.config['JWT_SECRET_KEY'] = os.environ.get("JWT_SECRET_KEY")
 # Don't compact the JSON output
 app.json.compact = False
 
@@ -32,4 +36,4 @@ db.init_app(app)
 api = Api(app)
 
 # Instantiate CORS
-CORS(app, origins=["http://localhost:3000"], methods=["GET", "POST"], allow_headers=["Content-Type"])
+CORS(app)
