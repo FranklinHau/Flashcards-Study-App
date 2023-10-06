@@ -26,7 +26,19 @@ def manage_users():
         existing_user = User.query.filter_by(email=data(email=data['email'])).first()
         if existing_user: 
             return jsonify({'message': 'Email already in use'}), 400
-            
+    
+    # CAPTCHA validation 
+    recaptcha_response = request.form['g-recaptcha-response']
+    payload = {
+        'secret': "YOUR_RECAPTCHA_SECRET_KEY_HERE",
+        'response': recaptcha_response
+    }
+    response = request.post('https://www.google.com/recaptcha/api/siteverify', data=payload)
+    result = response.json()
+
+    if not result['success']:
+        return jsonify({'error': 'Invalid reCAPTCHA. Please try again'}), 400
+    return jsonify({"message": 'User created successfully.'}), 201
 # get user 
 @user_routes.route('/users/<int:id>', methods=['GET'])
 def get_user(id):
