@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
 import os
-
 from flask import Flask, send_from_directory
 
 app = Flask(__name__, static_folder='build')
 
-from config import app
 from app.routes.deck_routes import deck_routes
 from app.routes.user_routes import user_routes 
 from app.routes.card_routes import card_routes 
