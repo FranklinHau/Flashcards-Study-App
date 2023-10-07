@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import os
 
 from config import app
 from app.routes.deck_routes import deck_routes
@@ -11,6 +12,5 @@ app.register_blueprint(user_routes)
 app.register_blueprint(card_routes)
 app.register_blueprint(review_routes)
 
-if __name__ == '__main__':
-    app.run(port=5555, debug=True)
+app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5555)), debug=True)
 
