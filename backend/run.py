@@ -12,9 +12,15 @@ app.register_blueprint(user_routes)
 app.register_blueprint(card_routes)
 app.register_blueprint(review_routes)
 
-@app.route('/')
-def home():
-    return 'Hello, this is the home page'
+app = Flask(__name__, static_folder='build')
+
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def serve(path):
+    if path != "" and os.path.exists(app.static_folder + '/' + path):
+        return send_from_directory(app.static_folder, path)
+    else:
+        return send_from_directory(app.static_folder, 'index.html')
 
 app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5555)), debug=True)
 

@@ -13,9 +13,6 @@ user_routes = Blueprint('user_routes', __name__)
 # Initialize JWT
 jwt = JWTManager(app)
 
-@app.route('/')
-def home():
-    return 'Hello, this is the home page'
 
 # Create user
 @user_routes.route('/users', methods=['POST'])
@@ -75,7 +72,7 @@ def delete_user(id):
     return jsonify({'message': 'User not found'}), 404
 
 # Login user
-@user_routes.route('/', methods=['POST'])
+@user_routes.route('/login', methods=['POST'])
 def login_user():
     data = request.get_json()
     email = data.get('email')
