@@ -17,7 +17,7 @@ Flask-RESTful==0.3.10
 Flask-SQLAlchemy
 greenlet==2.0.2
 idna==3.4
-importlib-metadata==6.8.0
+importlib-metadata
 importlib-resources==6.1.0
 ipdb==0.13.9
 ipython==8.12.2
