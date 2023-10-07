@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import os
 
+from flask import Flask
 from config import app
 from app.routes.deck_routes import deck_routes
 from app.routes.user_routes import user_routes 
