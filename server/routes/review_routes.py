@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from config import db 
-from app.models.review import Review
+from models.review import Review
 
 #create a Blueprint for the review routes 
 review_routes = Blueprint('review_routes', __name__)
@@ -8,11 +8,22 @@ review_routes = Blueprint('review_routes', __name__)
 # create a new review
 @review_routes.route('/api/review', methods=['POST'])
 def create_review():
+    print(request.headers)
     data = request.get_json()
+
+     # Error handling for missing or invalid parameters
+    if not data or 'deck_id' not in data or 'user_id' not in data:
+        return jsonify({'message': 'Bad Request, missing or invalid parameters'}), 400
+
+     # Validate rating if it's provided
+    rating = data.get('rating')
+    if rating is not None and (rating < 1 or rating > 5):
+        return jsonify({'message': 'Rating must be between 1 and 5'}), 400
+
     new_review = Review(
         deck_id=data['deck_id'], 
         user_id=data['user_id'],
-        rating=data.get('rating'), # rating is optional 
+        rating=rating, 
         comment=data.get('comment') # comment is optional 
     )
     db.session.add(new_review)
@@ -22,6 +33,7 @@ def create_review():
 # Get a specific review by its ID
 @review_routes.route('/api/reviews/<int:id>', methods=['GET'])
 def get_review(id): 
+    print(request.headers)
     review = Review.query.get(id)
     if review:
         return jsonify(review.to_dict()), 200
@@ -30,6 +42,7 @@ def get_review(id):
  # Update a review by its ID
 @review_routes.route('/api/reviews/<int:id>', methods=['PUT'])
 def update_review(id): 
+    print(request.headers)
     review = Review.query.get(id)
     if review: 
         data = request.get_json()
@@ -43,6 +56,7 @@ def update_review(id):
 # Delete a review by its ID
 @review_routes.route('/api/reviews/<int:id>', methods=['DELETE'])
 def delete_review(id): 
+    print(request.headers)
     review = Review.query.get(id)
     if review: 
         db.session.delete(review)

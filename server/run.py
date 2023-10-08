@@ -1,18 +1,24 @@
 #!/usr/bin/env python3
 import os
 from flask import Flask, send_from_directory
+from config import app, db 
 
-app = Flask(__name__, static_folder='build')
 
-from app.routes.deck_routes import deck_routes
-from app.routes.user_routes import user_routes 
-from app.routes.card_routes import card_routes 
-from app.routes.review_routes import review_routes
-    
+from routes.deck_routes import deck_routes
+from routes.user_routes import user_routes
+from routes.card_routes import card_routes
+from routes.review_routes import review_routes
+
+# Register the blueprints
 app.register_blueprint(deck_routes)
 app.register_blueprint(user_routes)
 app.register_blueprint(card_routes)
 app.register_blueprint(review_routes)
+
+
+# Create the database tables
+with app.app_context():
+    db.create_all()
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')

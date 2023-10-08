@@ -1,84 +1,79 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import axios from 'axios';
-
-
+import config from './config';
 
 function UserProfile() {
-    const [user, setUser] = useState({});
-    const [decks, setDecks] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState(null);
+  const userRef = useRef({});
+  const decksRef = useRef([]);
+  const isLoadingRef = useRef(true);
+  const errorRef = useRef(null);
 
-    //to debug the value of decks
-    console.log(decks);
+  // Debug log to check the value of decks
+  console.log(decksRef.current);
 
-    // using useEffect to run code when the component mounts 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get('http://localhost:5555/users/me', {
-                    headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('access_token')}`
-                    }
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${config.apiBaseURL}/users/me`);
 
-                });
-                
-                //log the entire response from server 
-                console.log("Server Response:", response.data);
-                if (response.data.user && response.data.decks) {
-                
-                    //setting state with received data 
-                    setUser(response.data.user);
-                    setDecks(response.data.decks);
-                    
-                } else{
-                    setUser(response.data) // If the server does not return user and decks keys, then directly set user
-                }
-                setIsLoading(false);
-            } catch (error) {
-                console.error(error);
-                setError('An error occurred while fetching data.');
-                setIsLoading(false)
+        // Log the entire response from the server
+        console.log("Server Response:", response.data);
+        if (response.data.user && response.data.decks) {
+          // Update refs with received data
+          userRef.current = response.data.user;
+          decksRef.current = response.data.decks;
+        } else {
+          // If the server does not return user and decks keys, then directly set user ref
+          userRef.current = response.data;
+        }
 
-            }
-        };
+        // Update isLoading ref and trigger a re-render
+        isLoadingRef.current = false;
+      } catch (error) {
+        console.error(error);
+        // Update error ref and trigger a re-render
+        errorRef.current = 'An error occurred while fetching data.';
+        isLoadingRef.current = false;
+      }
+    };
 
-        fetchData();
-    }, []);
+    fetchData();
+  }, []);
 
-    if (isLoading) {
-        return <div>Loading...</div>;
-    }
+  if (isLoadingRef.current) {
+    return <div>Loading...</div>;
+  }
 
-    if (error) {
-        return <div>{error}</div>;
-    }
+  if (errorRef.current) {
+    return <div>{errorRef.current}</div>;
+  }
 
-    return (
-        <div className='user-profile-container'>
-            {/* Debug log to check what's in the user object */}
-            {console.log(user)}
-            <h1>{user && user.username ? user.username + "'s Profile" : "Profile"}</h1>
-            <p>Email: {user ? user.email : 'N/A'}</p>
-            <p>Bio: {user ? user.bio : 'N/A'}</p>
+  const user = userRef.current;
+  const decks = decksRef.current;
 
-            <h2>Your Decks</h2>
-            <ul>
-                {
-                    //conditional rendering logic
-                    decks && decks.length > 0 ?
-                        decks.map((deck) => (
-                            <li key={deck.id}>
-                                <div>Title: {deck.title}</div>
-                                <div>Description: {deck.description}</div>
-                            </li>
-                        ))
-                        :
-                        <li>No decks available</li>
-                }
-            </ul>
-        </div>
-    );
+  return (
+    <div className='user-profile-container'>
+      {/* Debug log to check what's in the user object */}
+      {console.log(user)}
+      <h1>{user && user.username ? user.username + "'s Profile" : "Profile"}</h1>
+      <p>Email: {user ? user.email : 'N/A'}</p>
+      <p>Bio: {user ? user.bio : 'N/A'}</p>
+
+      <h2>Your Decks</h2>
+      <ul>
+        {decks && decks.length > 0 ? (
+          decks.map((deck) => (
+            <li key={deck.id}>
+              <div>Title: {deck.title}</div>
+              <div>Description: {deck.description}</div>
+            </li>
+          ))
+        ) : (
+          <li>No decks available</li>
+        )}
+      </ul>
+    </div>
+  );
 }
 
 export default UserProfile;

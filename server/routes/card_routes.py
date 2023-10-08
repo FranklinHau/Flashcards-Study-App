@@ -1,13 +1,19 @@
 from flask import Blueprint, jsonify, request 
 from config import db 
-from app.models.card import Card 
+from models.card import Card 
 
 card_routes = Blueprint('card_routes', __name__)
 
 # create a card 
 @card_routes.route('/api/cards', methods=['POST'])
 def create_card():
+    print(request.headers)
     data = request.get_json()
+    
+    # Error handling for bad request
+    if not data or 'deck_id' not in data or 'question' not in data or 'answer' not in data:
+        return jsonify({'message': 'Bad Request, missing or invalid parameters'}), 400
+    
     new_card = Card(
         deck_id=data['deck_id'],
         question=data['question'], 
@@ -22,6 +28,7 @@ def create_card():
 # get a card
 @card_routes.route('/api/cards/<int:id>', methods=['GET'])
 def get_card(id):
+    print(request.headers)
     card = Card.query.get(id)
     if card: 
         return jsonify(card.serialize()), 200
@@ -30,6 +37,7 @@ def get_card(id):
 # update card 
 @card_routes.route('/api/cards/<int:id>', methods=['PUT'])
 def update_card(id): 
+    print(request.headers)
     card = Card.query.get(id)
     if card: 
         data = request.get.json()
@@ -44,6 +52,7 @@ def update_card(id):
 # delete card 
 @card_routes.route('/api/cards/<int:id>', methods=['DELETE'])
 def delete_card(id):
+    print(request.headers)
     card = Card.query.get(id)
     if card: 
         db.session.delete(card)

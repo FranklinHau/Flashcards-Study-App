@@ -1,5 +1,4 @@
 from sqlalchemy_serializer import SerializerMixin
-from sqlalchemy.ext.associationproxy import association_proxy
 from werkzeug.security import generate_password_hash, check_password_hash 
 
 
@@ -17,10 +16,12 @@ class User(db.Model, SerializerMixin):
     # Serialize settings
     serialize_only = ('id', 'username', 'email', 'bio', 'profile_image')
 
-    # Hash the password 
+    # Hash the password before storing it in database
     def set_password(self, password):
+        self.hashed_password = generate_password_hash(password)
+    def check_password(self, password):
+        # Check if the provided password matches the hashed password in the database
         return check_password_hash(self.hashed_password, password)
-    
 
 
 
