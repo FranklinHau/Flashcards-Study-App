@@ -97,7 +97,7 @@ const UserComponent = () => {
           checked={termsAccepted}
           onChange={e => setTermsAccepted(e.target.checked)}
         />
-        <input
+        {/* <input
           type='text'
           placeholder='Enter CAPTCHA'
           value={captchaValue}
@@ -110,7 +110,7 @@ const UserComponent = () => {
           <ReCAPTCHA
             sitekey='YOUR_RECAPTCHA_SITE_KEY_HERE'
             onChange={handleCaptcha}
-          />
+          /> */}
         <label htmlFor='terms'>I accept the terms and conditions</label>
         <button onClick={createUser}>Create User</button>
       </div>
