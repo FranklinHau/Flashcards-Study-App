@@ -1,81 +1,73 @@
+import React from 'react';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 import axios from 'axios';
-import React, {useState} from 'react';
 import { useHistory } from 'react-router-dom';
 
 
-// sample data representing public decks 
-const sampleDecks = [
-    {id: 1, title: 'Science Deck', description: 'Your own notes.'},
-    {id: 2, title: 'History Deck', description: 'Your own memorizing cards.'}
-];
-
-function Home() {
-    // defining history for navigation
+// Form validation schema using Yup
+const validationSchema = Yup.object({
+    email: Yup.string().email('Invalid email format').required('Required'),
+    password: Yup.string().min(8, 'Password must be at least 8 characters long').required('Required'),
+  });
+  
+  function Home() {
     const history = useHistory();
-
-    // State to hold login form data
-    const [loginData, setLoginData] = useState({ email: '', password: ''});
-
-    // Function to handle login form submission 
-    const handleLogin = async (e) => {
-        e.preventDefault();
+  
+    // Using Formik for form handling
+    const formik = useFormik({
+      initialValues: { email: '', password: '' },
+      validationSchema: validationSchema,
+      onSubmit: async (values, { setSubmitting }) => {
         try {
-            const response = await axios.post(`http://localhost:5555/login`, loginData);
-            console.log('Response:', response);
-            if (response.status === 200) {
-                localStorage.setItem('access_token', response.data.access_token); // store JWT token 
-                history.push('/profile'); // Navigate to UserProfile component 
-            } else {
-                alert('Invalid credentials');
-            }
+          const response = await axios.post('http://localhost:5555/login', values);
+          if (response.status === 200) {
+            localStorage.setItem('access_token', response.data.access_token);
+            history.push('/profile');
+          }
         } catch (error) {
-            alert('An error occurred during login');
-            console.error(error);
+          alert('An error occurred during login');
+          console.error(error);
         }
-
-    };
-    // function to navigate to registration page 
+        setSubmitting(false);
+      },
+    });
+  
     const navigateToRegister = () => {
-        history.push('/register');
-    }; 
-
-
-
+      history.push('/register');
+    };
+  
     return (
-        <div className='home-container'>
-            <h1>Welcome to The Flashcard App!</h1>
-
-            {/* section for login and reqistration */}
-            <div className='auth-section'>
-                <form onSubmit={handleLogin}>
-                    <input
-                        type='email'
-                        placeholder='Email'
-                        value={loginData.email}
-                        onChange={(e) => setLoginData({...loginData, email: e.target.value})} />
-                
-                    <input 
-                        type='password'
-                        placeholder='Password'
-                        value={loginData.password}
-                        onChange={(e) => setLoginData({...loginData, password: e.target.value})} />
-                    <button type='submit'>Login</button>
-                </form>
-                <button onClick={navigateToRegister}>Register</button>
-            </div>
-
-            {/* Section for displaying example study decks */}
-            <h2>Create your own Decks of study Cards</h2>
-            <ul>
-                {sampleDecks.map((deck) => (
-                    <li key={deck.id}>
-                        <h3>{deck.title}</h3>
-                        <p>{deck.description}</p>
-                    </li>
-                ))}
-            </ul>
+      <div className="home-container">
+        <h1>Welcome to The Flashcard App!</h1>
+        <div className="auth-section">
+          <form onSubmit={formik.handleSubmit}>
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.email}
+            />
+            {formik.touched.email && formik.errors.email ? <div>{formik.errors.email}</div> : null}
+  
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.password}
+            />
+            {formik.touched.password && formik.errors.password ? <div>{formik.errors.password}</div> : null}
+  
+            <button type="submit">Login</button>
+          </form>
+          <button onClick={navigateToRegister}>Register</button>
         </div>
+      </div>
     );
-}
-
-export default Home;
+  }
+  
+  export default Home;
