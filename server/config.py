@@ -1,42 +1,43 @@
-# Standard library import
 import os
 
 # Remote library imports
 from flask import Flask
-from flask_cors import CORS
+from flask_bcrypt import Bcrypt
 from flask_migrate import Migrate
 from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
-from dotenv import load_dotenv
+from flask_cors import CORS
+from sqlalchemy import MetaData
 
-
-# environment variables
-load_dotenv()
+# Constants for default values
+DEFAULT_SECRET_KEY = b'a\xa7\xcd\xc5\xf0\xc0\x897\x1e\xe6\xe8\xbb\xc2\x85\xe7\xd0'
+DEFAULT_CORS_ORIGINS = "http://localhost:4000"
 # Instantiate app, set attributes
 app = Flask(__name__)
-app.secret_key = 'FllONS_tAFtg3q5ShVV5E8ASD5yz1yvAebrNO-PZnKQ'
-# Get database URI from environment variables 
-# fetched from an environment variable 'DATABASE_URI', falling back to 'sqlite://app/db'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
-# Disable tracking of modifications 
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-#authentication JWT (JSON Web Tokens)
 
-# Don't compact the JSON output
+# Secret key for session management
+app.secret_key = os.environ.get('SECRET_KEY', DEFAULT_SECRET_KEY)
+
+# Database configurations
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///User.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.json.compact = False
 
-# Define metadata, instantiate db
 metadata = MetaData(naming_convention={
     "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
 })
 
 db = SQLAlchemy(metadata=metadata)
-migrate = Migrate(app, db)
 db.init_app(app)
+migrate = Migrate(app, db)
 
 # Instantiate REST API
 api = Api(app)
 
-# Instantiate CORS
-CORS(app)
+# Instantiate Bcrypt
+bcrypt = Bcrypt(app)
+
+# Initialize CORS
+CORS(app, resources={r"/*": {"origins": os.environ.get('CORS_ORIGINS', DEFAULT_CORS_ORIGINS)}}, supports_credentials=True)
+

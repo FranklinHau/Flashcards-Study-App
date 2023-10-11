@@ -8,7 +8,7 @@ from random import randint, choice as rc
 from faker import Faker
 
 # Local imports
-from run import app
+from server.app import app
 from app.models.user import db, User
 
 if __name__ == '__main__':
