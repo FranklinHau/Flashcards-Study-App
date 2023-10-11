@@ -41,21 +41,20 @@ class User(db.Model, SerializerMixin):
         return check_password_hash(self.hashed_password, password)
 
 
-class Review(db.Model):
+class SelfReview(db.Model):
     """Review model for storing deck reviews."""
     
     id = db.Column(db.Integer, primary_key=True)
-    deck_id = db.Column(db.Integer, db.ForeignKey('deck.id'), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    rating = db.Column(db.Integer)
-    comment = db.Column(db.Text)
+    mood_rating = db.Column(db.Integer, nullable=False)  
+    today_confidence = db.Column(db.Float, nullable=False) 
 
-    user = relationship("User", back_populates="reviews") 
-    deck = relationship("Deck", back_populates="reviews")  
+    user = relationship("User", back_populates="self_reviews")  
 
     def to_dict(self) -> dict:
-        """Serialize the Review object to a dictionary."""
-        return {'id': self.id, 'deck_id': self.deck_id, 'user_id': self.user_id, 'rating': self.rating, 'comment': self.comment}
+        """Serialize the SelfReview object to a dictionary."""
+        return {'id': self.id, 'user_id': self.user_id, 'mood_rating': self.mood_rating, 'today_confidence': self.today_confidence}
+
 
 
 class Deck(db.Model):
