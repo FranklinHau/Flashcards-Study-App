@@ -1,15 +1,16 @@
-
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-
-
+// UserProfile Functional Component
 function UserProfile({ user, handleLogout }) {
+  // State hooks for managing decks and selected deck's cards
   const [decks, setDecks] = useState([]);
   const [selectedDeckCards, setSelectedDeckCards] = useState([]);
-
+  
+  // Hook for programmatic navigation
   const navigate = useNavigate();
 
+  // Function to fetch cards of a specific deck
   const fetchDeckCards = async (deckId) => {
     const response = await fetch(`/deckCards/${deckId}`, {
       credentials: 'include',
@@ -20,11 +21,12 @@ function UserProfile({ user, handleLogout }) {
     }
   };
 
+  // Function to navigate to the create deck page
   const goToCreateDeck = () => {
     navigate('/create-deck');
   };
-  
 
+  // Function to handle user logout
   const performLogout = async () => {
     const res = await fetch('/logout', {
       method: 'DELETE',
@@ -37,6 +39,7 @@ function UserProfile({ user, handleLogout }) {
     }
   };
 
+  // useEffect hook to fetch user decks when the component is mounted
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch('/userDecks', {
@@ -48,13 +51,15 @@ function UserProfile({ user, handleLogout }) {
       }
     };
 
-    fetchData();
+    fetchData(); // Invoking the fetchData function
   }, []);
 
-  // When user clicks on a deck title
+  // Function to handle when a deck title is clicked
   const handleDeckClick = (deckId) => {
     fetchDeckCards(deckId);
   };
+
+  // Rendering the UserProfile UI
   return (
     <div>
       <h1>Welcome to Your Account</h1>
