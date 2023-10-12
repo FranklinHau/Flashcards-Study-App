@@ -25,7 +25,7 @@ class User(db.Model, SerializerMixin):
 
     serialize_only = ('id', 'username', 'email', 'bio', 'profile_image')
     decks = relationship("Deck", back_populates="user")
-    reviews = relationship("Review", back_populates="user")
+    self_reviews = relationship("SelfReview", back_populates="user")
     cards = relationship("Card", back_populates="user") 
 
 
@@ -46,10 +46,12 @@ class SelfReview(db.Model):
     
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    deck_id = db.Column(db.Integer, db.ForeignKey('deck.id'), nullable=False)
     mood_rating = db.Column(db.Integer, nullable=False)  
     today_confidence = db.Column(db.Float, nullable=False) 
 
     user = relationship("User", back_populates="self_reviews")  
+    deck = db.relationship("Deck", back_populates="self_reviews")
 
     def to_dict(self) -> dict:
         """Serialize the SelfReview object to a dictionary."""
@@ -69,7 +71,7 @@ class Deck(db.Model):
 
     user = relationship("User", back_populates="decks")
     cards = relationship("Card", back_populates="deck")
-    reviews = relationship("Review", back_populates="deck") 
+    self_reviews = relationship("SelfReview", back_populates="deck") 
 
     def to_dict(self) -> dict:
         """Serialize the Deck object to a dictionary."""

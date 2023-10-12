@@ -121,6 +121,40 @@ class PublicDecks(Resource):
             **deck.to_dict(),
             'cards': [card.to_dict() for card in deck.cards]
         } for deck in public_decks])
+    
+class DeckCards(Resource):
+    def get(self, deckId):
+        try:
+            cards = Card.query.filter(Card.deck_id == deckId).all()
+            if not cards:
+                return {"message": "No cards found for this deck"}, HTTPStatus.NOT_FOUND
+            
+            return jsonify([card.to_dict() for card in cards])
+
+        except Exception as e:
+            return {"message": str(e)}, HTTPStatus.INTERNAL_SERVER_ERROR
+
+
+class SaveCards(Resource):
+    def post(self, deckId):
+        json_data = request.get_json()
+        cards_data = json_data.get('cards')
+
+        for card_data in cards_data:
+            new_card = Card(
+                question=card_data.get('question'),
+                answer=card_data.get('answer'),
+                hint=card_data.get('hint'),
+                deck_id=deckId
+            )
+            db.session.add(new_card)
+        
+        try:
+            db.session.commit()
+            return {"message": "Cards added successfully"}, HTTPStatus.CREATED
+        except sqlalchemy.exc.IntegrityError:
+            db.session.rollback()
+            return {"message": "Database integrity error"}, HTTPStatus.INTERNAL_SERVER_ERROR
 
 
 # Add resources to the API
@@ -131,6 +165,10 @@ api.add_resource(Logout, '/logout')
 api.add_resource(CreateDeck, '/create_deck')
 api.add_resource(UserDecks, '/userDecks')
 api.add_resource(PublicDecks, '/public_decks')
+api.add_resource(DeckCards, '/deckCards/<int:deckId>')
+api.add_resource(SaveCards, '/saveCards/<int:deckId>')
+
+
 
 
 
