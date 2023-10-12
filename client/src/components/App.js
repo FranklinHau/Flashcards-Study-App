@@ -8,55 +8,72 @@ import LogIn from "./LogIn"
 import CreateDeck from "./CreateDeck";
 import Cards from "./Cards"; 
 
-
-
-
+// Main App component
 function App() {
+  // State to manage user authentication
   const [user, setUser] = useState(null);
 
-  // Function to handle logout
+  // Function to handle user logout
   const handleLogout = () => {
+    // Resetting the user state to null (unauthenticated)
     setUser(null);
-    // Navigate the user to the login page
-    // Use Navigate component from react-router-dom
+    // Navigating the user to the login page
     return <Navigate to="/login" />;
   };
 
-  // Auto-login using session on the server
+  // Effect hook to auto-login user based on the server session
   useEffect(() => {
+    // Fetch request to check for an active session on the server
     fetch("/check_session", {
       credentials: 'include'  // Include credentials for session handling
     }).then((r) => {
       if (r.ok) {
+        // If session is active, set user state with the returned user data
         return r.json().then((user) => setUser(user));
       } else if (r.status === 401) {
-        // Handle unauthorized access, e.g., set user to null
+        // If unauthorized, reset user state to null
         setUser();
       } else {
-        // Handle other status codes, throw an error
+        // Handling other unexpected statuses
       }
     }).catch((error) => {
-      //
+      // Handling fetch errors
     });
-  }, []);
+  }, []);  // Empty dependency array, meaning this effect runs once after the initial render
   
-
+  // JSX return: Structure and routing of the application
   return (
     <>
+      {/* Navigation bar which receives user state and logout handler as props */}
       <NavBar user={user} handleLogout={handleLogout} />
       <main>
-      <Routes>
-        <Route path="/login" element={<LogIn handleAccount={setUser} />} />
-        <Route path="/signup" element={<SignUpForm handleAccount={setUser} />} />
-        <Route path="/decks" element={<Decks user={user} />} />
-        <Route path="/profile" element={user ? <UserProfile user={user} handleLogout={handleLogout} /> : <Navigate to="/login" />} />
-        <Route path="/create-deck" element={<CreateDeck user={user} handleAccount={setUser} />} />
-        <Route path="/cards" element={<Cards user={user} handleAccount={setUser}/>} />
-        <Route path="/" element={<Navigate to="/login" />} />
-      </Routes>
+        {/* Defining application routes and connecting them to respective components */}
+        <Routes>
+          {/* Route for logging in */}
+          <Route path="/login" element={<LogIn handleAccount={setUser} />} />
+          
+          {/* Route for signing up */}
+          <Route path="/signup" element={<SignUpForm handleAccount={setUser} />} />
+          
+          {/* Route for viewing decks */}
+          <Route path="/decks" element={<Decks user={user} />} />
+          
+          {/* Route for viewing the user profile, with conditional rendering based on authentication */}
+          <Route path="/profile" element={user ? <UserProfile user={user} handleLogout={handleLogout} /> : <Navigate to="/login" />} />
+          
+          {/* Route for creating a new deck */}
+          <Route path="/create-deck" element={<CreateDeck user={user} handleAccount={setUser} />} />
+          
+          {/* Route for managing cards */}
+          <Route path="/cards" element={<Cards user={user} handleAccount={setUser}/>} />
+          
+          {/* Default route that navigates to login */}
+          <Route path="/" element={<Navigate to="/login" />} />
+        </Routes>
       </main>
     </>
   );
 }
+
 
 export default App;
