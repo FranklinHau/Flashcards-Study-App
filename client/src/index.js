@@ -1,12 +1,19 @@
-//serves as the entry point for my React application. 
-//It's responsible for rendering the App component
-import React from "react";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import ErrorBoundary from './components/ErrorBoundary';  
+import store from './components/store';
 import App from './components/App';
-import "./index.css";
-import {createRoot} from "react-dom/client";
 
-const root = document.getElementById('root');
-const reactRoot = createRoot(root);
 
-reactRoot.render(<App />);
+ReactDOM.render(
+  <Provider store={store}>
+    <ErrorBoundary>
+      <App />
+    </ErrorBoundary>
+  </Provider>,
+  document.getElementById('root')
+);
+
+
 
