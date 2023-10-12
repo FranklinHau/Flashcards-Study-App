@@ -1,6 +1,5 @@
 import os
 
-# Remote library imports
 from flask import Flask
 from flask_bcrypt import Bcrypt
 from flask_migrate import Migrate
@@ -13,7 +12,7 @@ from sqlalchemy import MetaData
 # Constants for default values
 DEFAULT_SECRET_KEY = b'a\xa7\xcd\xc5\xf0\xc0\x897\x1e\xe6\xe8\xbb\xc2\x85\xe7\xd0'
 DEFAULT_CORS_ORIGINS = "http://localhost:4000"
-# Instantiate app, set attributes
+# Instantiate app
 app = Flask(__name__)
 
 # Secret key for session management
@@ -29,13 +28,13 @@ metadata = MetaData(naming_convention={
 })
 
 db = SQLAlchemy(metadata=metadata)
-db.init_app(app)
-migrate = Migrate(app, db)
+db.init_app(app) # Linking the database instance to the Flask app
+migrate = Migrate(app, db) # Initializing migration scripts for the database
 
 # Instantiate REST API
 api = Api(app)
 
-# Instantiate Bcrypt
+# Instantiate Bcrypt for hashing passwords
 bcrypt = Bcrypt(app)
 
 # Initialize CORS

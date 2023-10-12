@@ -42,7 +42,7 @@ class User(db.Model, SerializerMixin):
 
 
 class SelfReview(db.Model):
-    """Review model for storing deck reviews."""
+    """SelfReview model for storing self reviews."""
     
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
