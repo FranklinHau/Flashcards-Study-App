@@ -1,4 +1,3 @@
-
 import hashlib
 import sqlalchemy
 from flask import request, session, jsonify
@@ -8,6 +7,8 @@ from config import app, db, api
 from models import User, Deck, Card, db
 from werkzeug.security import generate_password_hash
 from sqlalchemy.exc import IntegrityError
+
+# Class definitions for various API endpoints are here
 
 class Signup(Resource):
     """Resource to handle user signup."""
@@ -25,7 +26,7 @@ class Signup(Resource):
         
         user = User(username=username, email=email, bio=bio)
         user.hashed_password = generate_password_hash(password)
-        
+        # Attempting to add a new user to the database
         try:
             db.session.add(user)
             db.session.commit()
@@ -169,14 +170,10 @@ api.add_resource(DeckCards, '/deckCards/<int:deckId>')
 api.add_resource(SaveCards, '/saveCards/<int:deckId>')
 
 
-
-
-
-
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
 
-print(hashlib.algorithms_guaranteed)
+print(hashlib.algorithms_guaranteed) # Printing the guaranteed hash algorithms available in the system
 
 
 
