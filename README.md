@@ -47,6 +47,7 @@ Flask-Migrate for handling database migrations
 
 ### Clone the Repository
 git clone https://github.com/your-username/study-app.git
+
 cd study-app
 
 ### Setup Virtual Environment 
