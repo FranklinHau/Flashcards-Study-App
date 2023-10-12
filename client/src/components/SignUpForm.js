@@ -4,14 +4,16 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import { Form, Button, InputGroup, Row, Col, Alert } from "react-bootstrap";
 
-
+// SignUpForm Functional Component
 function SignUpForm({ handleAccount }) {
-  // State to hold feedback messages and loading status
+  // State hooks for feedback messages and loading status
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  // Hook for programmatic navigation
   const navigate = useNavigate();
 
-  // Form validation schema using Yup
+  // Validation schema for the form using Yup
   const formSchema = yup.object().shape({
     username: yup.string().required("Username is required").max(20),
     email: yup.string().required("Email is required").email("Invalid email address").max(100),
@@ -20,7 +22,7 @@ function SignUpForm({ handleAccount }) {
     profile_image: yup.string().optional(),
   });
 
-  // Formik form setup
+  // useFormik hook to manage the form state, validation, and submission
   const formik = useFormik({
     initialValues: {
       username: "",
@@ -31,7 +33,9 @@ function SignUpForm({ handleAccount }) {
     },
     validationSchema: formSchema,
     onSubmit: async (values) => {
-      setIsLoading(true);
+      setIsLoading(true); // Setting loading state to true during form submission
+      
+      // Making an API request to the signup endpoint
       const res = await fetch("/signup", {
         method: "POST",
         headers: {
@@ -39,9 +43,10 @@ function SignUpForm({ handleAccount }) {
         },
         body: JSON.stringify(values),
       });
-      setIsLoading(false);
+      
+      setIsLoading(false); // Resetting loading state after form submission
 
-      // Handle different server responses
+      // Handling different server responses
       if (res.ok) {
         const user = await res.json();
         handleAccount(user);
@@ -54,10 +59,11 @@ function SignUpForm({ handleAccount }) {
     },
   });
 
+  // Rendering the SignUpForm UI
   return (
     <Form className="signUpForm" onSubmit={formik.handleSubmit}>
       <h2 className="addAccount">Sign Up</h2>
-      {/* Display error messages */}
+      {/* Displaying feedback messages */}
       {message && <Alert variant="danger">{message}</Alert>}
       <div>
         <InputGroup>
@@ -135,6 +141,7 @@ function SignUpForm({ handleAccount }) {
     </Form>
   );
 }
+
 
 export default SignUpForm;
 
