@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { Form, Button, InputGroup, Row, Col, Alert } from "react-bootstrap";
@@ -11,7 +11,7 @@ function SignUpForm({ handleAccount }) {
   const [isLoading, setIsLoading] = useState(false);
 
   // Hook for programmatic navigation
-  const navigate = useNavigate();
+  const history = useHistory();
 
   // Validation schema for the form using Yup
   const formSchema = yup.object().shape({
@@ -50,7 +50,7 @@ function SignUpForm({ handleAccount }) {
       if (res.ok) {
         const user = await res.json();
         handleAccount(user);
-        navigate("/profile");
+        history.push("/profile");
       } else if (res.status === 422) {
         setMessage("Username or Email already exists");
       } else {

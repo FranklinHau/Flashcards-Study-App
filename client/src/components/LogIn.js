@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { Form, Button } from 'react-bootstrap';
+import './css/LogIn.css';
+
 
 // LogIn Functional Component
 function LogIn({ handleAccount }) {
   // Hook to navigate between routes
-  const navigate = useNavigate();
+  const history = useHistory();
 
   // State to manage public decks
   const [publicDecks, setPublicDecks] = useState([]);
@@ -40,7 +42,7 @@ function LogIn({ handleAccount }) {
       if (res.ok) {
         const user = await res.json();
         handleAccount(user);
-        navigate("/profile");
+        history.push("/profile");
       } else {
         // Handling errors or unsuccessful login
       }
@@ -52,7 +54,7 @@ function LogIn({ handleAccount }) {
     const fetchData = async () => {
       try {
         const response = await fetch('/public_decks', {
-          credentials: 'include', 
+          credentials: 'include',
         });
         if (response.ok) {
           const fetchedDecks = await response.json();
@@ -64,36 +66,62 @@ function LogIn({ handleAccount }) {
         console.error("An error occurred while fetching data: ", error);
       }
     };
-  
+
     fetchData(); // Calling the fetchData function
   }, []);
 
-  // Rendering the UI of the LogIn component
   return (
     <div>
-      <h1>Welcome to FLASHCARDS Study App</h1>
+      <h1>Welcome to Study App</h1>
+      <Form onSubmit={formik.handleSubmit} className="loginForm">
+        <Form.Group controlId="email">
+          <Form.Label className="formName">Email</Form.Label>
+          <Form.Control
+            type="email"
+            name="email"
+            onChange={formik.handleChange}
+            value={formik.values.email}
+            placeholder="Email"
+          />
+          {formik.errors.email && <div>{formik.errors.email}</div>}
+        </Form.Group>
 
-      {/* Form for user login */}
-      <Form onSubmit={formik.handleSubmit}>
-        {/* ... (Form fields and buttons here) ... */}
+        <Form.Group controlId="password">
+          <Form.Label className="formPassword">Password</Form.Label>
+          <Form.Control
+            type="password"
+            name="password"
+            onChange={formik.handleChange}
+            value={formik.values.password}
+            placeholder="Password"
+          />
+          {formik.errors.password && <div>{formik.errors.password}</div>}
+        </Form.Group>
+
+        <Button type="submit" className="formSubmit">Sign In</Button>
       </Form>
-      
-      {/* Links and list of public decks */}
+
       <p>Not registered? <Link to="/signup">Sign Up</Link></p>
       <h2>Public Decks:</h2>
       <ul>
-      {/* Mapping through public decks and rendering them */}
-      {publicDecks.map((deck, index) => (
-        <li key={index}>
-          {/* ... (Deck details here) ... */}
-        </li>
-      ))}
-    </ul>
+        {publicDecks.map((deck, index) => (
+          <li key={index}>
+            <strong>{deck.title}</strong>
+            <ul>
+              {deck.cards.map((card, cardIndex) => (
+                <li key={cardIndex}>
+                  <strong>Question:</strong> {card.question} <br />
+                  <strong>Answer:</strong> {card.answer}
+                </li>
+              ))}
+            </ul>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
 
-// Exporting the LogIn component as default
 export default LogIn;
 
 

@@ -1,0 +1,61 @@
+/* Styles for the container div */
+div {
+    text-align: center;
+}
+
+/* Styles for the form */
+.loginForm {
+    display: inline-block;
+    text-align: left;
+    margin: 0 auto;
+}
+
+/* Styles for the email and password labels */
+.formName,
+.formPassword {
+    display: block;
+    font-size: 1.5em;
+    color: rgb(0, 0, 0);
+    margin-bottom: 1%;
+}
+
+/* Styles for the password label specifically */
+.formPassword {
+    color: rgb(15, 3, 252);
+    font-weight: bold;
+    font-size: 1em;
+}
+
+/* Styles for the submit button */
+.formSubmit {
+    color: rgb(230, 72, 32);
+    background: white;
+    padding: .5rem;
+    margin-right: 1rem;
+    margin-left: .3rem;
+    border: rgb(230, 72, 32) 2px solid;
+    border-radius: 1em;
+    margin-top: 20px;
+}
+
+/* Styles for the unordered list of decks */
+ul {
+    display: inline-block;
+    text-align: center;
+    list-style-type: none;
+    padding-left: 0;
+}
+
+/* Styles for the individual list items within the decks list */
+ul li {
+    margin-bottom: 1em;
+}
+
+.passwordLabel,
+.confirmPasswordLabel {
+    font-size: 0.3em; 
+}
+
+.formLabel {
+    font-size: 1.2em; 
+}

@@ -1,7 +1,7 @@
 // Importing necessary libraries and hooks
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import './CreateDeck.css';  // Importing styles
+import { useHistory } from 'react-router-dom';
+import './css/CreateDeck.css';  // Importing styles
 
 // CreateDeck Component
 const CreateDeck = ({ user, handleAccount }) => {
@@ -11,13 +11,14 @@ const CreateDeck = ({ user, handleAccount }) => {
         description: '',
         subject: '',
         public: true,
+        user_id: null,
     });
 
     // State to manage messages for user feedback
     const [message, setMessage] = useState(null);
 
     // Hook to programmatically navigate
-    const navigate = useNavigate();
+    const history = useHistory();
 
     // Function to handle form input changes
     const handleChange = (e) => {
@@ -48,7 +49,7 @@ const CreateDeck = ({ user, handleAccount }) => {
         if (response.ok) {
             const deck = await response.json();
             handleAccount(user);
-            navigate("/cards");
+            history.push("/cards");
             console.log("New deck:", deck);
         } else if (response.status === 422) {
             setMessage("Deck not created");  // Setting message on failure

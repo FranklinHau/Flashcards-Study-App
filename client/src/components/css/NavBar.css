@@ -1,0 +1,20 @@
+.mainContainer {
+    margin-top: 50px; /* Adjust the value as needed */
+}
+
+.homeButton {
+    background-color: red; /* Sets the background color to red */
+    color: white; /* Sets the text color to white */
+    font-size: 1em; /* Adjust the font size */
+    border: none; /* Removes the border */
+    padding: 10px 20px; /* Adds padding */
+    border-radius: 50%; /* Makes the button circular */
+    width: 60px; /* Sets width, ensuring it's equal to the height */
+    height: 60px; /* Sets height, ensuring it's equal to the width */
+    cursor: pointer; /* Changes the cursor to a hand on hover */
+    text-align: center; /* Centers the text */
+}
+
+.homeButton:hover {
+    background-color: darkred; /* Darkens the button when hovered over */
+}

@@ -46,8 +46,9 @@ class CheckSession(Resource):
         if not user_id:
             return {"message": "Unauthorized"}, HTTPStatus.UNAUTHORIZED
         
-        user = db.session.get(User, user_id) 
-        if user:
+       # user = db.session.get(User, user_id) 
+        if user_id:
+            user = User.query.filter(User.id == user_id).first()
             return {"id": user.id, "username": user.username, "bio": user.bio}, HTTPStatus.OK
         else:
             return {"message": "User not found"}, HTTPStatus.NOT_FOUND
@@ -108,12 +109,20 @@ class CreateDeck(Resource):
             return {"message": "Database integrity error"}, 500   
         
 class UserDecks(Resource):
-    def get(self):
-        user_id = session.get('user_id')
-        if not user_id:
-            return {"message": "Unauthorized"}, HTTPStatus.UNAUTHORIZED
-        decks = Deck.query.filter(Deck.user_id == user_id).all()
-        return jsonify([deck.to_dict() for deck in decks])
+    def get(self, userId):
+        decks = Deck.query.filter_by(user_id=userId).all()
+        deck_list = []
+        for deck in decks:
+            cards = Card.query.filter_by(deck_id=deck.id).all()
+            card_list = [{'question': card.question, 'answer': card.answer, 'hint': card.hint} for card in cards]
+            deck_list.append({
+                'id': deck.id,
+                'title': deck.title,
+                'description': deck.description,
+                'subject': deck.subject,
+                'cards': card_list
+            })
+        return jsonify(deck_list)
     
 class PublicDecks(Resource):
     def get(self):
@@ -149,7 +158,6 @@ class SaveCards(Resource):
                 deck_id=deckId
             )
             db.session.add(new_card)
-        
         try:
             db.session.commit()
             return {"message": "Cards added successfully"}, HTTPStatus.CREATED
@@ -164,7 +172,7 @@ api.add_resource(CheckSession, '/check_session')
 api.add_resource(Login, '/login')
 api.add_resource(Logout, '/logout')
 api.add_resource(CreateDeck, '/create_deck')
-api.add_resource(UserDecks, '/userDecks')
+api.add_resource(UserDecks, '/userDecks/<int:userId>')
 api.add_resource(PublicDecks, '/public_decks')
 api.add_resource(DeckCards, '/deckCards/<int:deckId>')
 api.add_resource(SaveCards, '/saveCards/<int:deckId>')

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
-import styled from 'styled-components';
+
 
 // Decks Component that displays a list of decks
 function Decks({ user }) {  // Accepting 'user' as a prop
@@ -28,27 +28,27 @@ function Decks({ user }) {  // Accepting 'user' as a prop
 
   // Rendering the UI of the Decks component
   return (
-    <Wrapper>
-      {decks.length > 0 ? (  // Conditional rendering based on decks availability
-        decks.map((deck) => (  // Mapping through decks and rendering each
-          <Deck key={deck.id}>
-            <h2>{deck.title}</h2>
-            <p>
-              <em>Subject: {deck.subject}</em>
-              &nbsp;·&nbsp;
-              <cite>By {deck.user.username}</cite>
-            </p>
-            <ReactMarkdown>{deck.description}</ReactMarkdown>  // Markdown support for descriptions
-          </Deck>
-        ))
-      ) : (
-        <NoDecks>  // Placeholder when there are no decks
-          <h2>No Decks Found</h2>
-          {user && <Link to="/new">Create a New Deck</Link>}  // Link to create new deck if user is authenticated
-        </NoDecks>
-      )}
-    </Wrapper>
-  );
+    <div className="deck-wrapper">
+            {decks.length > 0 ? (
+                decks.map((deck) => ( 
+                    <div key={deck.id} className="deck">
+                        <h2>{deck.title}</h2>
+                        <p>
+                            <em>Subject: {deck.subject}</em>
+                            &nbsp;·&nbsp;
+                            <cite>By {deck.user.username}</cite>
+                        </p>
+                        <ReactMarkdown>{deck.description}</ReactMarkdown>
+                    </div>
+                ))
+            ) : (
+                <div className="no-decks">
+                    <h2>No Decks Found</h2>
+                    {user && <Link to="/new">Create a New Deck</Link>}
+                </div>
+            )}
+        </div>
+    );
 }
 
 export default Decks;

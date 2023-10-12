@@ -1,10 +1,11 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import './css/NavBar.css';
 
 // NavBar Functional Component
 function NavBar({ user, handleLogout }) {
   // Hook for programmatic navigation
-  const navigate = useNavigate();
+  const history = useHistory();
 
   // Function to handle logout and navigation
   const logoutAndNavigate = () => {
@@ -13,18 +14,18 @@ function NavBar({ user, handleLogout }) {
     
     if (confirmLogout) {
       handleLogout(); // Calling logout handler passed as prop
-      navigate("/login"); // Navigating to login page
+      history.push("/login"); // Navigating to login page
     }
   };
   // Rendering the NavBar UI
   return (
-    <nav>
+    <nav className="mainContainer">
       {user ? (
         <>
-          <button onClick={logoutAndNavigate}>Home</button>  {/* Button to trigger logout and navigate to login page */}
+          <button className="homeButton" onClick={logoutAndNavigate}>Home</button>  {/* Button to trigger logout and navigate to login page */}
         </>
       ) : (
-        <Link to="/login">Home</Link>  //{/* Link to navigate to login page if user is not authenticated */}
+        <Link className="homeButton" to="/login">Home</Link>  //{/* Link to navigate to login page if user is not authenticated */}
       )}
     </nav>
   );

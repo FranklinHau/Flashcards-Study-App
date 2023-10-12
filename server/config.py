@@ -11,7 +11,7 @@ from sqlalchemy import MetaData
 
 # Constants for default values
 DEFAULT_SECRET_KEY = b'a\xa7\xcd\xc5\xf0\xc0\x897\x1e\xe6\xe8\xbb\xc2\x85\xe7\xd0'
-DEFAULT_CORS_ORIGINS = "http://localhost:4000"
+
 # Instantiate app
 app = Flask(__name__)
 
@@ -38,5 +38,5 @@ api = Api(app)
 bcrypt = Bcrypt(app)
 
 # Initialize CORS
-CORS(app, resources={r"/*": {"origins": os.environ.get('CORS_ORIGINS', DEFAULT_CORS_ORIGINS)}}, supports_credentials=True)
+CORS(app, origins=["http://localhost:3000"], supports_credentials=True)
 

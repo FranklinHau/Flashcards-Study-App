@@ -88,8 +88,8 @@ class Card(db.Model):
     hint = db.Column(db.String(MAX_HINT_LENGTH))
 
     deck = relationship("Deck", back_populates="cards")
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)  # Added this line
-    user = relationship("User", back_populates="cards")  # Added this line
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user = relationship("User", back_populates="cards")  
     
     def to_dict(self) -> dict:
         """Serialize the Card object to a dictionary."""
