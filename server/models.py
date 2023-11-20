@@ -46,16 +46,16 @@ class SelfReview(db.Model):
     
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    deck_id = db.Column(db.Integer, db.ForeignKey('deck.id'), nullable=False)
+    deck_id = db.Column(db.Integer, db.ForeignKey('deck.id'), nullable=True)
     mood_rating = db.Column(db.Integer, nullable=False)  
-    today_confidence = db.Column(db.Float, nullable=False) 
+    today_confidence = db.Column(db.Integer, nullable=False) 
 
     user = relationship("User", back_populates="self_reviews")  
     deck = db.relationship("Deck", back_populates="self_reviews")
 
     def to_dict(self) -> dict:
         """Serialize the SelfReview object to a dictionary."""
-        return {'id': self.id, 'user_id': self.user_id, 'mood_rating': self.mood_rating, 'today_confidence': self.today_confidence}
+        return {'id': self.id, 'user_id': self.user_id, 'deck_id' : self.deck_id, 'mood_rating': self.mood_rating, 'today_confidence': self.today_confidence}
 
 
 
